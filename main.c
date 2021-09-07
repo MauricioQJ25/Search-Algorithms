@@ -160,7 +160,7 @@ void dfs(int initialNode, int goalNode)
     visitedNodes[initialNode] = 1;
 
     while(next != goalNode){
-        next = getNext(next, visitedNodes);
+        next = getNext(next, visitedNodes, goalNode);
         if(next == -1)
         {
             pop();

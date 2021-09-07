@@ -28,6 +28,6 @@ void printList();
 
 void initAdjacencyList();
 
-int getNext(int node, int visitedNodes[]);
+int getNext(int node, int visitedNodes[], int goal);
 
 int pathcost(int source, int destiny);
