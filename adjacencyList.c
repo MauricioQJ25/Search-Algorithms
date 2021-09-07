@@ -93,3 +93,23 @@ void initAdjacencyList()
         adjlist[i]->head = NULL;
     }
 }
+
+int getNext(int node, int visitedNodes[])
+{
+    Node *p = adjlist[node]->head;
+    p = p->next;
+    while(p){
+        if(visitedNodes[p->vertexNum] == 0)
+        {
+            return p->vertexNum;
+        }
+        else{
+            p = p->next;
+        }
+    }
+
+    if (p == NULL)
+    {
+        return -1;
+    }
+}

@@ -27,3 +27,5 @@ void addNode(int s, int d, int w);
 void printList();
 
 void initAdjacencyList();
+
+int getNext(int node, int visitedNodes[]);

@@ -79,5 +79,16 @@ void display(){
     }
 }
 
+int getTop(void){
+    tmp = top;
+    if (tmp != NULL)
+    {
+        return tmp->data;
+    }
+    else
+    {
+        return -1;
+    }
+}
 
 

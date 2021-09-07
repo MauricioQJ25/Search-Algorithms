@@ -9,3 +9,4 @@
 void push(int element);
 void pop();
 void display();
+int getTop();

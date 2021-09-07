@@ -15,10 +15,14 @@
 
 void testStack();
 void createAdjacencyList();
+void dfs(int initialNode, int goalNode);
 
 void main(){
-    testStack();
+    // testStack();
     createAdjacencyList();
+    dfs(0,10);
+
+    // printList();
 }
 
 void createAdjacencyList()
@@ -72,8 +76,6 @@ void createAdjacencyList()
     addNode(18, 19, 87);
     addNode(18, 16, 92);
     addNode(19, 18, 87);
-
-    printList();
 }
 
 void testStack()
@@ -102,4 +104,27 @@ void testStack()
     pop();
     pop();
     pop();
+}
+
+void dfs(int initialNode, int goalNode)
+{
+    int next = initialNode;
+    int visitedNodes[20] = {0};
+
+    push(initialNode);
+    visitedNodes[initialNode] = 1;
+
+    while(next != goalNode){
+        next = getNext(next, visitedNodes);
+        if(next == -1)
+        {
+            pop();
+            next = getTop();
+        }
+        else
+        {
+            push(next);
+            visitedNodes[next] = 1;
+        }
+    }
 }
