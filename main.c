@@ -18,9 +18,43 @@ void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 
 void main(){
-    // testStack();
-    createAdjacencyList();
-    dfs(0,10);
+
+    int select = 0;
+    int init, goal;
+
+    printf("This program get a path using different algorithms like: \n");
+    printf("1.- dfs \n");
+    printf("2.- bfs \n");
+    printf("3.- iterativa \n");
+    printf("4.- costo uniforme \n");
+    printf("5.- A* \n");
+    printf("6.- Busqueda Voraz \n");
+
+    printf("\n Select one of this to resolve a graph taken from IA book related to Rumanian cities\n");
+    scanf("%d", &select);
+
+    switch(select)
+    {
+        case 1:
+            createAdjacencyList();
+
+            printf("\n Select init node\n");
+            scanf("%d", &init);
+
+            printf("\n Select goal node\n");
+            scanf("%d", &goal);
+
+            dfs(init,goal);
+            break;
+        case 0:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        default:
+            break;
+    }
 
     // printList();
 }
