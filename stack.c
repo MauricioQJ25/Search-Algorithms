@@ -37,7 +37,7 @@ void push(int element){
     }
     count++;
     printf("Item to be added is %d \n", top->data);
-    display();
+    // display();
 }
 
 void pop(){
@@ -57,7 +57,7 @@ void pop(){
     free(top);
     top = tmp;
     count--;
-    display();
+    // display();
 }
 
 void display(){
@@ -69,7 +69,7 @@ void display(){
     }
     else
     {   
-        printf("There are currently %d items: Head->", count);
+        printf("There are currently %d items: Top->", count);
         while(tmp != NULL)
         {
             printf("%d ", tmp->data);

@@ -21,8 +21,10 @@ void main(){
 
     int select = 0;
     int init, goal;
-
-    printf("This program get a path using different algorithms like: \n");
+    
+    printf("\n------------ Menu -----------------------------------------\n");
+    printf("Graph taken from IA book related to Rumanian cities\n");
+    printf("This program resolve a path using different algorithms like: \n");
     printf("1.- dfs \n");
     printf("2.- bfs \n");
     printf("3.- iterativa \n");
@@ -30,7 +32,7 @@ void main(){
     printf("5.- A* \n");
     printf("6.- Busqueda Voraz \n");
 
-    printf("\n Select one of this to resolve a graph taken from IA book related to Rumanian cities\n");
+    printf("\n Select one of this to obtain a path and path cost\n Option: ");
     scanf("%d", &select);
 
     switch(select)
@@ -38,11 +40,13 @@ void main(){
         case 1:
             createAdjacencyList();
 
-            printf("\n Select init node\n");
+            printf("\nYou select DFS algorithm\n");
+            printf("Select init node: ");
             scanf("%d", &init);
 
-            printf("\n Select goal node\n");
+            printf("Select goal node: ");
             scanf("%d", &goal);
+            printf("\n");
 
             dfs(init,goal);
             break;
@@ -100,7 +104,7 @@ void createAdjacencyList()
     addNode(13, 8, 85);
     addNode(13, 15, 98);
     addNode(13, 16, 142);
-    addNode(14, 11, 70);
+    addNode(14, 11, 75);
     addNode(14, 10, 120);
     addNode(15, 13, 98);
     addNode(15, 17, 86);
@@ -144,8 +148,15 @@ void dfs(int initialNode, int goalNode)
 {
     int next = initialNode;
     int visitedNodes[20] = {0};
+    int pathsum = 0;
+    int source = -2;
+    int destiny = -2;
+    int steps = 0;
 
+
+    printf("\n------------Processing-----------------\n");
     push(initialNode);
+    steps = steps + 1;
     visitedNodes[initialNode] = 1;
 
     while(next != goalNode){
@@ -154,11 +165,33 @@ void dfs(int initialNode, int goalNode)
         {
             pop();
             next = getTop();
+            display();
         }
         else
         {
             push(next);
             visitedNodes[next] = 1;
+            display();
         }
+        steps = steps + 1;
     }
+    
+    printf("\n------------Report-----------------\n");
+    printf("Nodes visited: %d \n", steps);
+    printf("Path found... ");
+    display();
+    printf("Calculating path cost...\n");
+    source = getTop();
+    pop();
+    destiny = getTop();
+
+    while( destiny != -1)
+    {
+        pathsum = pathsum + pathcost(source, destiny);
+        source = destiny;
+        pop();
+        destiny = getTop();
+    }
+    printf("The path cost is the following: %d\n", pathsum);
 }
+

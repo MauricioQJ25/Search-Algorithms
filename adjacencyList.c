@@ -113,3 +113,18 @@ int getNext(int node, int visitedNodes[])
         return -1;
     }
 }
+
+int pathcost(int source, int destiny)
+{
+    Node *p = adjlist[source]->head;
+    p = p->next;
+    while(p){
+        if(p->vertexNum == destiny)
+        {
+            return p->weight;
+        }
+        else{
+            p = p->next;
+        }
+    }
+}
