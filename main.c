@@ -256,8 +256,19 @@ void bfs(int initialNode, int goalNode)
 
     int next = initialNode;
     int previous = initialNode;
+    
+    if(initialNode != goalNode)
+    {
+        next = getNext(previous, visitedNodes, goalNode);
+        if(next != -1)
+        {
+            enqueue(next);
+            steps = steps + 1;
+            visitedNodes[next] = 1;
+            previousNodes[next] = getHead();
+        }
+    }
 
-    // next = getNext(previous, visitedNodes, goalNode);
     while(next != goalNode /*|| previous != -3*/){
         while(next != -1 )
         {
@@ -280,6 +291,7 @@ void bfs(int initialNode, int goalNode)
             if(next != -1)
             {
                 enqueue(next);
+                steps = steps + 1;
                 visitedNodes[next] = 1;
                 previousNodes[next] = getHead();;
             }
