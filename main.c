@@ -14,8 +14,6 @@
 #include "adjacencyList.h"
 #include "queue.h"
 
-void testStack();
-void testQueue();
 void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 void bfs(int initialNode, int goalNode);
@@ -36,7 +34,15 @@ void main(){
     printf("6.- Busqueda Voraz \n");
 
     printf("\n Select one of this to obtain a path and path cost\n Option: ");
-    scanf("%d", &select);
+
+    do{
+        scanf("%d", &select);
+        if(select < 1 || select > 6)
+        {
+            printf("Please select a right version \n");
+        }
+    }while(select < 1 || select > 6);
+
     createAdjacencyList();
 
     switch(select)
@@ -52,8 +58,6 @@ void main(){
 
             dfs(init,goal);
             break;
-        case 0:
-            testQueue();
         case 2:
             printf("\nYou select BFS algorithm\n");
             printf("Select init node: ");
@@ -128,63 +132,6 @@ void createAdjacencyList()
     addNode(19, 18, 87);
 }
 
-void testStack()
-{
-    // empty
-    // 5
-    // 5 6
-    // 5 6 7
-    // 5 6 7 8
-    // 5 6 7
-    // 5 6 7 10
-    // 5 6 7
-    // 5 6 
-    // 5 
-    // empty
-    pop();
-    pop();
-    push(5);
-    push(6);
-    push(7);
-    push(8);
-    pop();
-    push(10);
-    pop();
-    pop();
-    pop();
-    pop();
-    pop();
-}
-
-void testQueue()
-{
-    // empty
-    // 0
-    // 0 5
-    // 0 5 6
-    // 0 5 6 7
-    // 5 6 7
-    // 6 7
-    // 7
-    // 7 1
-    // 7 1 2
-    // 7 1 2 3
-    // empty
-    dequeue();
-    enqueue(0);
-    enqueue(5);
-    enqueue(6);
-    enqueue(7);
-
-    dequeue();
-    dequeue();
-    dequeue();
-
-    enqueue(1);
-    enqueue(2);
-    enqueue(3);        
-}
-
 void dfs(int initialNode, int goalNode)
 {
     int next = initialNode;
@@ -195,7 +142,7 @@ void dfs(int initialNode, int goalNode)
     int steps = 0;
 
 
-    printf("\n------------Processing-----------------\n");
+    printf("\n------------DFS Processing-----------------\n");
     push(initialNode);
     steps = steps + 1;
     visitedNodes[initialNode] = 1;
@@ -217,8 +164,8 @@ void dfs(int initialNode, int goalNode)
         steps = steps + 1;
     }
     
-    printf("\n------------Report-----------------\n");
-    printf("Nodes visited: %d \n", steps);
+    printf("\n------------DFS Report-----------------\n");
+    printf("Steps in the stack: %d \n", steps);
     printf("Path found... ");
     display();
     printf("Calculating path cost...\n");
@@ -250,7 +197,7 @@ void bfs(int initialNode, int goalNode)
 
     printf("\n------------Processing BFS-----------------\n");
     enqueue(initialNode);
-    //steps = steps + 1;
+    steps = steps + 1;
     visitedNodes[initialNode] = 1;
     previousNodes[initialNode] = -100;
 
@@ -269,7 +216,7 @@ void bfs(int initialNode, int goalNode)
         }
     }
 
-    while(next != goalNode /*|| previous != -3*/){
+    while(next != goalNode){
         while(next != -1 )
         {
             next = getNext(previous, visitedNodes, goalNode);
@@ -299,16 +246,29 @@ void bfs(int initialNode, int goalNode)
         // display();
     }
 
+    printf("\n--------Printing previous nodes-----------\n");
+    printf("(-100) means initial node, (-5) unvisited \n");
     for( int i = 0; i < 20; i++)
     {
         printf("previousnode[%d] = %d\n", i, previousNodes[i]);
     }
     
-    /*
-    printf("\n------------Report-----------------\n");
-    printf("Nodes visited: %d \n", steps);
-    printf("Path found... ");
+    
+    printf("\n------------BFS Report-----------------\n");
+    printf("Steps in the queue: %d \n", steps);
+    printf("Getting path... \n");
+    
+    int head = goalNode;
+    do
+    {
+        push(head);
+        head = previousNodes[head];
+        
+    }while(head != -100);
+
+    printf("Path found: ");
     display();
+
     printf("Calculating path cost...\n");
     source = getTop();
     pop();
@@ -322,6 +282,6 @@ void bfs(int initialNode, int goalNode)
         destiny = getTop();
     }
     printf("The path cost is the following: %d\n", pathsum);
-    */
+
 }
 
