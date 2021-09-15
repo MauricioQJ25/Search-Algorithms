@@ -17,6 +17,7 @@
 void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 void bfs(int initialNode, int goalNode);
+void greedySearch(int initialNode, int goalNode);
 
 void main(){
 
@@ -31,7 +32,7 @@ void main(){
     printf("3.- iterativa \n");
     printf("4.- costo uniforme \n");
     printf("5.- A* \n");
-    printf("6.- Busqueda Voraz \n");
+    printf("6.- Greedy Search \n");
 
     printf("\n Select one of this to obtain a path and path cost\n Option: ");
 
@@ -72,6 +73,14 @@ void main(){
         case 4:
         case 5:
         case 6:
+            printf("\nYou select Greedy Search algorithm\n");
+            printf("Goal node is Bucharest: 8 \n");
+            goal = 8; /* Harcoded value*/
+
+            printf("Select init node: ");
+            scanf("%d", &init);
+            printf("\n");
+            greedySearch(init, goal);
         default:
             break;
     }
@@ -206,7 +215,7 @@ void bfs(int initialNode, int goalNode)
     
     if(initialNode != goalNode)
     {
-        next = getNext(previous, visitedNodes, goalNode);
+        
         if(next != -1)
         {
             enqueue(next);
@@ -219,7 +228,7 @@ void bfs(int initialNode, int goalNode)
     while(next != goalNode){
         while(next != -1 )
         {
-            next = getNext(previous, visitedNodes, goalNode);
+            
             if(next != -1)
             {
                 enqueue(next);
@@ -234,7 +243,7 @@ void bfs(int initialNode, int goalNode)
         previous = getHead();
         if (previous != -3)
         {
-            next = getNext(previous, visitedNodes, goalNode);
+            
             if(next != -1)
             {
                 enqueue(next);
@@ -283,5 +292,107 @@ void bfs(int initialNode, int goalNode)
     }
     printf("The path cost is the following: %d\n", pathsum);
 
-}
+} // End of BFS
 
+void greedySearch(int initialNode, int goalNode)
+{
+    int visitedNodes[20] = {0};
+    // for (int j1 = 0; j1 < 20; j1++)
+    //    visitedNodes[j1] = -5;
+
+    int previousNodes[20] = {100};
+    for (int j = 0; j < 20; j++)
+        previousNodes[j] = -5;
+
+    int pathsum = 0;
+    int source = -2;
+    int destiny = -2;
+    int steps = 0;
+    int heuristicActual = 0 ;
+    int tempnext = 0;
+    int watchdog= 0;
+    int errorloop = 0;
+
+    int heuristics[20] = {  366, /*0 Arad*/
+                            374, /*1 Zerind*/
+                            253, /*2 Sibiu*/
+                            329, /*3 Timisoara*/
+                            380, /*4 Oradea*/
+                            176, /*5 Fagaras*/
+                            193, /*6 Rimnicu Vilcea*/
+                            244, /*7 Lugoj*/
+                            0,   /*8 Bucharest*/
+                            100, /*9 Pitesti*/
+                            160, /*10 Craiova*/
+                            241, /*11 Mehadia*/
+                            77,  /*12 Giurgiu*/
+                            80,  /*13 Urziceni*/
+                            242, /*14 Drobeta*/
+                            151, /*15 Hirzova*/
+                            199, /*16 Vaslui*/
+                            161, /*17 Eforie*/
+                            226, /*18 Lasi*/
+                            234} ; /*19 Neamt*/
+
+    for (int i = 0; i < 20; i++)
+    {
+        printf("%d \n", heuristics[i]);
+    }
+    
+    printf("\n------------Processing Greedy Search-----------------\n");
+    push(initialNode);
+    steps = steps + 1;
+    visitedNodes[initialNode] = 1;
+    previousNodes[initialNode] = -100;
+    heuristicActual = heuristics[initialNode];
+
+    int next = initialNode;
+    int previous = initialNode;
+    
+    while(previous != goalNode)
+    {   
+        while(next != -1)
+        {
+            next = getNext(previous, visitedNodes, goalNode);
+            if (next != -1)
+            {
+                visitedNodes[next] = 1;
+            }
+
+            printf("next: %d \n", next);
+
+            if(heuristics[next] < heuristicActual && next != -1)
+            { 
+                tempnext = next;
+                heuristicActual = heuristics[tempnext];
+            }
+            if(next == goalNode)
+            {
+                break;
+            }
+        }
+        
+        previous = tempnext;
+        //tempnext = -2;
+        push(previous);
+        next = -2;
+        watchdog++;
+        if (watchdog > 20)
+        {
+            errorloop = 1;
+            break;
+        }
+
+    }
+    if (errorloop)
+    {
+        printf("\nWarning: Greedy Search fails due loop in path!!!\n");
+    }
+    else
+    {
+        printf("End Path found: ");
+        display();
+    }
+
+
+} // End of greedySearch
