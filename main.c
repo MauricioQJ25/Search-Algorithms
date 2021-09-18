@@ -18,6 +18,7 @@ void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 void bfs(int initialNode, int goalNode);
 void greedySearch(int initialNode, int goalNode);
+void aStar(int initialNode, int goalNode);
 
 void main(){
 
@@ -72,6 +73,15 @@ void main(){
         case 3:
         case 4:
         case 5:
+            printf("\nYou select A Star algorithm\n");
+            printf("Goal node is Bucharest: 8 \n");
+            goal = 8; /* Harcoded value*/
+
+            printf("Select init node: ");
+            scanf("%d", &init);
+            printf("\n");
+            aStar(init, goal);
+            break;
         case 6:
             printf("\nYou select Greedy Search algorithm\n");
             printf("Goal node is Bucharest: 8 \n");
@@ -81,6 +91,7 @@ void main(){
             scanf("%d", &init);
             printf("\n");
             greedySearch(init, goal);
+            break;
         default:
             break;
     }
@@ -393,6 +404,10 @@ void greedySearch(int initialNode, int goalNode)
         printf("End Path found: ");
         display();
     }
-
-
 } // End of greedySearch
+void aStar(int initialNode, int goalNode)
+{
+
+} // End of a Star
+
+
