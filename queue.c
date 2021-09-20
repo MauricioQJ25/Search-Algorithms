@@ -16,9 +16,9 @@ struct Node{
     struct Node* next;
 };
 
-struct Node *head = NULL;
-struct Node *tail = NULL;
-struct Node *tmp = NULL;
+static struct Node *head = NULL;
+static struct Node *tail = NULL;
+static struct Node *tmp = NULL;
 
 int counter = 0;
 

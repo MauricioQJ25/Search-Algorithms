@@ -23,7 +23,7 @@ void greedySearch(int initialNode, int goalNode);
 void aStar(int initialNode, int goalNode);
 
 int element1 = 1;
-int previous1[20] = {0};
+int previous1[20] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
 int path1 = 10;
 int sumtotal1 = 10;
 
@@ -78,10 +78,19 @@ void main(){
             bfs(init, goal);
             break;
         case 3:
-            enqueue_p(element1, previous1, path1, 9);
+            enqueue_p(1, previous1, path1, 9);
             enqueue_p(2, previous1, path1, 15);
-            //enqueue_p(3, previous1, path1, 10);
-            //enqueue_p(3, previous1, path1, 17);
+            enqueue_p(3, previous1, path1, 10);
+            enqueue_p(3, previous1, path1, 11);
+            enqueue_p(3, previous1, path1, 17);
+            enqueue_p(3, previous1, path1, 18);
+            enqueue_p(3, previous1, path1, 12);
+            dequeue_p();
+            dequeue_p();
+            dequeue_p();
+            enqueue_p(7, previous1, path1, 7);
+            
+
             printf("\nHello From case 3\n");
             break;
         case 4:
