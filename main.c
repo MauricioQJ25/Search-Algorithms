@@ -14,11 +14,18 @@
 #include "adjacencyList.h"
 #include "queue.h"
 
+#include "astar.h"
+
 void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 void bfs(int initialNode, int goalNode);
 void greedySearch(int initialNode, int goalNode);
 void aStar(int initialNode, int goalNode);
+
+int element1 = 1;
+int previous1[20] = {0};
+int path1 = 10;
+int sumtotal1 = 10;
 
 void main(){
 
@@ -71,7 +78,14 @@ void main(){
             bfs(init, goal);
             break;
         case 3:
+            enqueue_p(element1, previous1, path1, 9);
+            enqueue_p(2, previous1, path1, 15);
+            //enqueue_p(3, previous1, path1, 10);
+            //enqueue_p(3, previous1, path1, 17);
+            printf("\nHello From case 3\n");
+            break;
         case 4:
+            break;
         case 5:
             printf("\nYou select A Star algorithm\n");
             printf("Goal node is Bucharest: 8 \n");
