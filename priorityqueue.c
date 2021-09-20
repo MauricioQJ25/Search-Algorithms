@@ -3,14 +3,13 @@
 /* based on linked list      */
 /* Author: Mauricio Quijada  */
 /* version 0.0.1             */
-/* astar.c                   */
+/* priorityqueue.c           */
 /*****************************/
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <string.h>
 
-#include "astar.h"
+#include "priorityqueue.h"
 
 #define MAX_ELEMENTS 20
 
@@ -142,7 +141,7 @@ void displayQueue_p(){
         printf("There are currently %d items: Head-> ", queue_elements);
         while(tmp != NULL)
         {
-            printf("**sum %d **", tmp->sum);
+            printf(" %d ", tmp->sum);
             /*
             printf("data %d \n",tmp->data );
             printf("previous: %d \n", (int)tmp->previous);

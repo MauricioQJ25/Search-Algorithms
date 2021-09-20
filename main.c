@@ -14,7 +14,7 @@
 #include "adjacencyList.h"
 #include "queue.h"
 
-#include "astar.h"
+#include "priorityqueue.h"
 
 void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
@@ -428,6 +428,7 @@ void greedySearch(int initialNode, int goalNode)
         display();
     }
 } // End of greedySearch
+
 void aStar(int initialNode, int goalNode)
 {
 

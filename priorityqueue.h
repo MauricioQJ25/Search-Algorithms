@@ -3,7 +3,7 @@
 /* based on linked list      */
 /* Author: Mauricio Quijada  */
 /* version 0.0.1             */
-/* astar.h                   */
+/* priorityqueue.h           */
 /*****************************/
 
 void enqueue_p(int element, int previousA[], int path, int sumtotal);
