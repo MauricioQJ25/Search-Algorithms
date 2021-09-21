@@ -11,7 +11,6 @@
 
 #include "priorityqueue.h"
 
-#define MAX_ELEMENTS 20
 
 struct Nodep{
     int data;
@@ -142,7 +141,7 @@ void displayQueue_p(){
         while(tmp != NULL)
         {
             printf(" %d ", tmp->sum);
-            /*
+            /*printf("pathcost %d \n",tmp->pathcost );
             printf("data %d \n",tmp->data );
             printf("previous: %d \n", (int)tmp->previous);
             printf("next: %d \n", (int)tmp->next);
@@ -150,11 +149,35 @@ void displayQueue_p(){
             {
                 printf("array[%d]: %d \n", i, tmp->prevArray[i]);
             }
+            
             printf("head sum: %d \n", head->sum);
             printf("tail sum: %d \n\n", tail->sum);
             */
+            
             tmp = tmp->next;
         }
         printf(" <-Tail \n");
+    }
+} // End of displayqueue
+
+void getHead_p(int *previouscities, int *pcost, int *city)
+{
+    tmp = head;
+
+    if (head == NULL)
+    {
+        printf("\nQueue is empty!\n");
+        return;
+    }
+    else
+    {
+        for (int i = 0; i < MAX_ELEMENTS; i++)
+        {
+            previouscities[i] = tmp->prevArray[i];
+        }
+
+        *pcost = tmp->pathcost;
+        *city = tmp->data;
+        return;
     }
 }

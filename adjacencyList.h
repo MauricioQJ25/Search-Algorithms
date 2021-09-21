@@ -31,3 +31,5 @@ void initAdjacencyList();
 int getNext(int node, int visitedNodes[], int goal);
 
 int pathcost(int source, int destiny);
+
+int getNextAstar(int node, int *pathcost, int visitedNodes[]);

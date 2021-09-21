@@ -140,3 +140,26 @@ int pathcost(int source, int destiny)
         }
     }
 }
+
+int getNextAstar(int node, int *pathcost, int visitedNodes[])
+{
+    Node *p = adjlist[node]->head;
+    p = p->next;
+
+    while(p){
+        if(visitedNodes[p->vertexNum] == 0)
+        {  
+            *pathcost = p->weight;
+            return p->vertexNum;
+        }
+        else{
+            p = p->next;
+        }
+    }
+
+    if (p == NULL)
+    {
+        *pathcost = 0;
+        return -1;
+    }
+}

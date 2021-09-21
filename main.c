@@ -16,6 +16,8 @@
 
 #include "priorityqueue.h"
 
+#define MAX_CITIES 20
+
 void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 void bfs(int initialNode, int goalNode);
@@ -23,7 +25,7 @@ void greedySearch(int initialNode, int goalNode);
 void aStar(int initialNode, int goalNode);
 
 int element1 = 1;
-int previous1[20] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
+int previous1[20] = {0};
 int path1 = 10;
 int sumtotal1 = 10;
 
@@ -431,6 +433,97 @@ void greedySearch(int initialNode, int goalNode)
 
 void aStar(int initialNode, int goalNode)
 {
+    int city;
+    int previouscities[MAX_CITIES]= {0};
+    int visitedNodes[20] = {0};
+    int visitedNodesLocal[20] = {0};
+    for (int j1 = 0; j1 < 20; j1++)
+        visitedNodesLocal[j1] = 0;
+    int pathcost;
+    int sum; // pathcost + heuristics
+
+    int heuristics[20] = {  366, /*0 Arad*/
+                            374, /*1 Zerind*/
+                            253, /*2 Sibiu*/
+                            329, /*3 Timisoara*/
+                            380, /*4 Oradea*/
+                            176, /*5 Fagaras*/
+                            193, /*6 Rimnicu Vilcea*/
+                            244, /*7 Lugoj*/
+                            0,   /*8 Bucharest*/
+                            100, /*9 Pitesti*/
+                            160, /*10 Craiova*/
+                            241, /*11 Mehadia*/
+                            77,  /*12 Giurgiu*/
+                            80,  /*13 Urziceni*/
+                            242, /*14 Drobeta*/
+                            151, /*15 Hirzova*/
+                            199, /*16 Vaslui*/
+                            161, /*17 Eforie*/
+                            226, /*18 Lasi*/
+                            234} ; /*19 Neamt*/
+    
+    /*Initial queue element*/
+    city = initialNode;
+    for (int i = 0; i < MAX_CITIES; i++)
+    {
+        /* -5 value means unvisited city */
+        previouscities[i] = -5;
+    }
+    previouscities[0] = initialNode;
+    pathcost = 0;
+    sum = heuristics[initialNode] + pathcost;
+
+    printf("\n------------A* Report-----------------\n");
+
+    enqueue_p(city, previouscities, pathcost, sum);
+
+    int next = initialNode;
+    int previouspathcost = 0;
+    int indexcity = 1;
+
+    getHead_p(&previouscities, &previouspathcost, &city);
+
+   while( city != goalNode)
+    {
+        while(next != -1)
+        {
+            next = getNextAstar(city, &pathcost, visitedNodesLocal);
+            if (next != -1)
+            {
+                visitedNodesLocal[next] = 1;
+
+                printf("next: %d \n", next);
+            
+                pathcost = pathcost + previouspathcost;
+                sum = heuristics[next] + pathcost;
+                previouscities[indexcity] = next;
+
+                printf("\nHellow from  astar enqueue\n\n");
+                enqueue_p(next, previouscities, pathcost, sum);
+                pathcost = 0;
+            }
+        }
+        for (int j1 = 0; j1 < 20; j1++)
+            visitedNodesLocal[j1] = 0;
+        dequeue_p();
+        getHead_p(previouscities, &previouspathcost, &city);
+        next = city;
+
+
+        int l1 = 0;
+        while(previouscities[l1] != -5)
+        {
+            l1++;
+        }
+
+        indexcity = l1;
+    }
+
+    printf("\nThe best path is the following \n\n");
+    for (int m1 = 0; m1 < 20; m1++)
+        printf("city[%d]= %d\n", m1, previouscities[m1]);
+
 
 } // End of a Star
 
