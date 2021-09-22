@@ -18,11 +18,13 @@
 
 #define MAX_CITIES 20
 
+void uCost(int initialNode, int goalNode);
 void createAdjacencyList();
 void dfs(int initialNode, int goalNode);
 void bfs(int initialNode, int goalNode);
 void greedySearch(int initialNode, int goalNode);
 void aStar(int initialNode, int goalNode);
+void iterative(int initialNode, int goalNode, int level);
 
 int element1 = 1;
 int previous1[20] = {0};
@@ -32,15 +34,15 @@ int sumtotal1 = 10;
 void main(){
 
     int select = 0;
-    int init, goal;
+    int init, goal, deeplevel;
     
     printf("\n------------ Menu -----------------------------------------\n");
     printf("Graph taken from IA book related to Rumanian cities\n");
     printf("This program resolve a path using different algorithms like: \n");
     printf("1.- dfs \n");
     printf("2.- bfs \n");
-    printf("3.- iterativa \n");
-    printf("4.- costo uniforme \n");
+    printf("3.- iterative bfs \n");
+    printf("4.- uniform cost \n");
     printf("5.- A* \n");
     printf("6.- Greedy Search \n");
 
@@ -80,22 +82,27 @@ void main(){
             bfs(init, goal);
             break;
         case 3:
-            enqueue_p(1, previous1, path1, 9);
-            enqueue_p(2, previous1, path1, 15);
-            enqueue_p(3, previous1, path1, 10);
-            enqueue_p(3, previous1, path1, 11);
-            enqueue_p(3, previous1, path1, 17);
-            enqueue_p(3, previous1, path1, 18);
-            enqueue_p(3, previous1, path1, 12);
-            dequeue_p();
-            dequeue_p();
-            dequeue_p();
-            enqueue_p(7, previous1, path1, 7);
-            
-
-            printf("\nHello From case 3\n");
+            printf("\nYou select Iterative BFS algorithm\n");
+            printf("Select init node: ");
+            scanf("%d", &init);
+            printf("\n");
+            printf("Select goalNode node: ");
+            scanf("%d", &goal);
+            printf("\n");
+            printf("Select level: ");
+            scanf("%d", &deeplevel);
+            printf("\n");
+            iterative(init, goal, deeplevel);
             break;
         case 4:
+            printf("\nYou select Uniform Cost algorithm\n");
+            printf("Select init node: ");
+            scanf("%d", &init);
+            printf("\n");
+            printf("Select goalNode node: ");
+            scanf("%d", &goal);
+            printf("\n");
+            uCost(init, goal);
             break;
         case 5:
             printf("\nYou select A Star algorithm\n");
@@ -251,7 +258,7 @@ void bfs(int initialNode, int goalNode)
     
     if(initialNode != goalNode)
     {
-        
+        next = getNext(previous, visitedNodes, goalNode);
         if(next != -1)
         {
             enqueue(next);
@@ -264,7 +271,7 @@ void bfs(int initialNode, int goalNode)
     while(next != goalNode){
         while(next != -1 )
         {
-            
+            next = getNext(previous, visitedNodes, goalNode);
             if(next != -1)
             {
                 enqueue(next);
@@ -279,7 +286,7 @@ void bfs(int initialNode, int goalNode)
         previous = getHead();
         if (previous != -3)
         {
-            
+            next = getNext(previous, visitedNodes, goalNode);
             if(next != -1)
             {
                 enqueue(next);
@@ -328,7 +335,7 @@ void bfs(int initialNode, int goalNode)
     }
     printf("The path cost is the following: %d\n", pathsum);
 
-} // End of BFS
+}
 
 void greedySearch(int initialNode, int goalNode)
 {
@@ -524,7 +531,195 @@ void aStar(int initialNode, int goalNode)
     for (int m1 = 0; m1 < 20; m1++)
         printf("city[%d]= %d\n", m1, previouscities[m1]);
 
-
 } // End of a Star
+
+void uCost( int initialNode, int goalNode)
+{
+    int city;
+    int previouscities[MAX_CITIES]= {0};
+    int visitedNodes[20] = {0};
+    int visitedNodesLocal[20] = {0};
+    for (int j1 = 0; j1 < 20; j1++)
+        visitedNodesLocal[j1] = 0;
+    int pathcost;
+    int sum; // pathcost + heuristics
+
+    int heuristics[20] = {0} ; /*19 Neamt*/
+    
+    /*Initial queue element*/
+    city = initialNode;
+    for (int i = 0; i < MAX_CITIES; i++)
+    {
+        /* -5 value means unvisited city */
+        previouscities[i] = -5;
+    }
+    previouscities[0] = initialNode;
+    pathcost = 0;
+    sum = heuristics[initialNode] + pathcost;
+
+    printf("\n------------Uniform Cost Report-----------------\n");
+
+    enqueue_p(city, previouscities, pathcost, sum);
+
+    int next = initialNode;
+    int previouspathcost = 0;
+    int indexcity = 1;
+
+    getHead_p(&previouscities, &previouspathcost, &city);
+
+   while( city != goalNode)
+    {
+        while(next != -1)
+        {
+            next = getNextAstar(city, &pathcost, visitedNodesLocal);
+            if (next != -1)
+            {
+                visitedNodesLocal[next] = 1;
+
+                printf("next: %d \n", next);
+            
+                pathcost = pathcost + previouspathcost;
+                sum = heuristics[next] + pathcost;
+                previouscities[indexcity] = next;
+
+                printf("\nHellow from  astar enqueue\n\n");
+                enqueue_p(next, previouscities, pathcost, sum);
+                pathcost = 0;
+            }
+        }
+        for (int j1 = 0; j1 < 20; j1++)
+            visitedNodesLocal[j1] = 0;
+        dequeue_p();
+        getHead_p(previouscities, &previouspathcost, &city);
+        next = city;
+
+
+        int l1 = 0;
+        while(previouscities[l1] != -5)
+        {
+            l1++;
+        }
+
+        indexcity = l1;
+    }
+
+    printf("\nThe best path is the following \n\n");
+    for (int m1 = 0; m1 < 20; m1++)
+        printf("city[%d]= %d\n", m1, previouscities[m1]);
+
+} // End of Uniform Cost
+
+void iterative(int initialNode, int goalNode, int level)
+{
+    int visitedNodes[20] = {0};
+    int previousNodes[20] = {100};
+    for (int j = 0; j < 20; j++)
+        previousNodes[j] = -5;
+    int pathsum = 0;
+    int source = -2;
+    int destiny = -2;
+    int steps = 0;
+    int maxlevel = level;
+    int counter = 0;
+
+
+    printf("\n------------Processing BFS-----------------\n");
+    enqueue(initialNode);
+    steps = steps + 1;
+    visitedNodes[initialNode] = 1;
+    previousNodes[initialNode] = -100;
+
+    int next = initialNode;
+    int previous = initialNode;
+    
+    if(initialNode != goalNode)
+    {
+        next = getNext(previous, visitedNodes, goalNode);
+        if(next != -1)
+        {
+            enqueue(next);
+            steps = steps + 1;
+            visitedNodes[next] = 1;
+            previousNodes[next] = getHead();
+            //counter++;
+        }
+    }
+
+    while(next != goalNode){
+        while(next != -1 )
+        {
+            next = getNext(previous, visitedNodes, goalNode);
+            if(next != -1)
+            {
+                enqueue(next);
+                steps = steps + 1;
+                visitedNodes[next] = 1;
+                previousNodes[next] = getHead();
+            }
+        }
+
+        dequeue();
+        counter++;
+        if(maxlevel < counter)
+        {
+            break;
+        }
+
+        steps = steps + 1;
+        previous = getHead();
+        if (previous != -3)
+        {
+            next = getNext(previous, visitedNodes, goalNode);
+            if(next != -1)
+            {
+                enqueue(next);
+                steps = steps + 1;
+                visitedNodes[next] = 1;
+                previousNodes[next] = getHead();;
+            }
+        }
+        
+        // display();
+    }
+
+    printf("\n--------Printing previous nodes-----------\n");
+    printf("(-100) means initial node, (-5) unvisited \n");
+    for( int i = 0; i < 20; i++)
+    {
+        printf("previousnode[%d] = %d\n", i, previousNodes[i]);
+    }
+    
+    
+    printf("\n------------BFS Report-----------------\n");
+    printf("Steps in the queue: %d \n", steps);
+    printf("Getting path... \n");
+    
+    int head = goalNode;
+    do
+    {
+        push(head);
+        head = previousNodes[head];
+        
+    }while(head != -100);
+
+    printf("Path found: ");
+    display();
+
+    printf("Calculating path cost...\n");
+    source = getTop();
+    pop();
+    destiny = getTop();
+
+    while( destiny != -1)
+    {
+        pathsum = pathsum + pathcost(source, destiny);
+        source = destiny;
+        pop();
+        destiny = getTop();
+    }
+    printf("The path cost is the following: %d\n", pathsum);
+
+}// End of Iterative BFS
+
 
 
